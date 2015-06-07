@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 public class View {
 
-    public static final String TEMPLATES_PATH = "/Users/aleix/IdeaProjects/Shibsted/src/com/shibsted/mvc/templates";
+    public static final String TEMPLATES_PATH = "/Users/aleix/IdeaProjects/Shibsted/src/com/shibsted/mvc/templates/";
 
     private OutputStream os;
 
@@ -22,9 +22,9 @@ public class View {
         final byte[] buffer = new byte[0x10000];
         int count = 0;
         while ((count = fs.read(buffer)) >= 0) {
-            os.write(buffer, 0, count);
+            this.os.write(buffer, 0, count);
         }
         fs.close();
-        os.close();
+        this.os.close();
     }
 }
