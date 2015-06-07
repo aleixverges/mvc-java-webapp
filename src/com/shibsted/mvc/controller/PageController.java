@@ -12,8 +12,7 @@ public class PageController {
         this.view = view;
     }
 
-    public void init(HttpServer server)
-    {
+    public void init(HttpServer server) {
         server.createContext("/page1", new ShibstedHttpHandler(this.view));
         server.createContext("/page2", new ShibstedHttpHandler(this.view));
         server.createContext("/page3", new ShibstedHttpHandler(this.view));

@@ -3,6 +3,7 @@ package com.shibsted.mvc;
 import com.shibsted.mvc.controller.PageController;
 import com.shibsted.mvc.view.View;
 import com.sun.net.httpserver.HttpServer;
+
 import java.net.InetSocketAddress;
 
 public class WebApplication {

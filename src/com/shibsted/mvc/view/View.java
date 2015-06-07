@@ -22,7 +22,7 @@ public class View {
         final byte[] buffer = new byte[0x10000];
         int count = 0;
         while ((count = fs.read(buffer)) >= 0) {
-            os.write(buffer,0,count);
+            os.write(buffer, 0, count);
         }
         fs.close();
         os.close();
