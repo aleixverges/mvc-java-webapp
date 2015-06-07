@@ -7,6 +7,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Map;
 
 public class Handler implements HttpHandler {
 
@@ -15,6 +16,7 @@ public class Handler implements HttpHandler {
 
         URI uri = httpExchange.getRequestURI();
         String uriPath = uri.getPath();
+        Map params = (Map)httpExchange.getAttribute("parameters");
         PageController pageController = new PageController(new View(), httpExchange);
         httpExchange.sendResponseHeaders(200, 0);
 
@@ -24,7 +26,7 @@ public class Handler implements HttpHandler {
             case "/page3":
                 pageController.pageAction();
             default:
-                pageController.loginAction();
+                pageController.loginAction(params);
         }
     }
 }

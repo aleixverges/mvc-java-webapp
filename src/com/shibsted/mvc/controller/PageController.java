@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 public class PageController {
 
@@ -16,7 +17,8 @@ public class PageController {
         this.httpExchange = httpExchange;
     }
 
-    public void loginAction() {
+    public void loginAction(Map params) {
+        System.out.print(params);
         this.render("login");
     }
 
