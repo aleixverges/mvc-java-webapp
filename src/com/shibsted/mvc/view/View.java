@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 public class View {
 
-    public static final String TEMPLATES_PATH = "/Users/aleix/IdeaProjects/Shibsted/src/com/shibsted/mvc/view";
+    public static final String TEMPLATES_PATH = "/Users/aleix/IdeaProjects/Shibsted/src/com/shibsted/mvc/templates";
 
     private OutputStream os;
 
