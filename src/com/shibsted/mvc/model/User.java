@@ -3,18 +3,25 @@ package com.shibsted.mvc.model;
 public class User {
 
     private String username;
-    private Role role;
+    private String password;
+    private String role;
 
-    public User(String username, Role role) {
+    public User(String username, String password) {
         this.username = username;
-        this.role = role;
-    }
-
-    public Role getRole() {
-        return role;
+        this.password = password;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() { return password; }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

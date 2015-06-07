@@ -21,6 +21,7 @@ public class WebApplication {
             server.createContext("/page2", httpHandler);
             server.createContext("/page3", httpHandler);
             server.start();
+
         } catch (java.io.IOException exception) {
             System.out.println(exception.getMessage());
         }

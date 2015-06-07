@@ -1,6 +1,7 @@
 package com.shibsted.mvc.http;
 
 import com.shibsted.mvc.controller.PageController;
+import com.shibsted.mvc.model.UserRepository;
 import com.shibsted.mvc.view.View;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -17,7 +18,7 @@ public class Handler implements HttpHandler {
         URI uri = httpExchange.getRequestURI();
         String uriPath = uri.getPath();
         Map params = (Map)httpExchange.getAttribute("parameters");
-        PageController pageController = new PageController(new View(), httpExchange);
+        PageController pageController = new PageController(new View(), httpExchange, new UserRepository());
         httpExchange.sendResponseHeaders(200, 0);
 
         switch (uriPath) {
