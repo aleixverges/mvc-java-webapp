@@ -1,4 +1,4 @@
-package com.shibsted.mvc;
+package com.shibsted.mvc.http;
 
 import com.shibsted.mvc.view.View;
 import com.sun.net.httpserver.HttpExchange;
@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 
-public class ShibstedHttpHandler implements HttpHandler {
+public class Handler implements HttpHandler {
 
     private View view;
 
-    public ShibstedHttpHandler(View view) {
+    public Handler(View view) {
         this.view = view;
     }
 
