@@ -39,16 +39,9 @@ public class PageController {
     }
 
     public void logoutAction() {
-        HashMap cookiesHash = getCookies();
-        String username = (String) cookiesHash.get("user");
-
-        Headers responseHeaders = this.httpExchange.getResponseHeaders();
-        List<String> values = new ArrayList<>();
-        values.add("user=; HttpOnly");
-        values.add(username + "=; HttpOnly");
-        responseHeaders.put("Set-Cookie", values);
-
+        endSession();
         this.render("login", 200);
+        return;
     }
 
     public void pageAction() {
@@ -59,11 +52,10 @@ public class PageController {
             return;
         }
 
-        String sessionId = (String) cookiesHash.get("user");
-        String currentRole = (String) cookiesHash.get(sessionId);
 
         URI uri = this.httpExchange.getRequestURI();
         String uriPath = uri.getPath().replace("/", "");
+        String currentRole = (String) cookiesHash.get("role");
 
         if (!uriPath.equals(currentRole)) {
             this.render("forbidden", 403);
@@ -74,22 +66,25 @@ public class PageController {
     }
 
     private HashMap getCookies() {
-        Headers reqHeaders = this.httpExchange.getRequestHeaders();
-        List<String> cookies = reqHeaders.get("Cookie");
-
-        StringTokenizer tokenizer = new StringTokenizer(cookies.get(0), ";");
         HashMap cookiesHash = new HashMap();
+        Headers reqHeaders = this.httpExchange.getRequestHeaders();
 
-        if (cookies.isEmpty()) {
+        if (!reqHeaders.containsKey("Cookie")) {
             return cookiesHash;
         }
+
+        List<String> cookies = reqHeaders.get("Cookie");
+        StringTokenizer tokenizer = new StringTokenizer(cookies.get(0), ";");
 
         for (String cookie : cookies) {
             if (cookie.contains("user")) {
                 while (tokenizer.hasMoreTokens()) {
                     String token = tokenizer.nextToken();
                     StringTokenizer cookieTokenizer = new StringTokenizer(token, "=");
-                    cookiesHash.put(cookieTokenizer.nextToken().trim(), cookieTokenizer.nextToken().trim());
+                    String key = cookieTokenizer.nextToken().trim();
+                    String value = cookieTokenizer.nextToken().trim();
+
+                    cookiesHash.put(key, value);
                 }
             }
         }
@@ -100,7 +95,15 @@ public class PageController {
         Headers responseHeaders = this.httpExchange.getResponseHeaders();
         List<String> values = new ArrayList<>();
         values.add("user=" + user.getUsername() + "; HttpOnly");
-        values.add(user.getUsername() + "=" + user.getRole() + "; HttpOnly");
+        values.add("role=" + user.getRole() + "; HttpOnly");
+        responseHeaders.put("Set-Cookie", values);
+    }
+
+    private void endSession() {
+        Headers responseHeaders = this.httpExchange.getResponseHeaders();
+        List<String> values = new ArrayList<>();
+        values.add("user=; HttpOnly");
+        values.add("role=; HttpOnly");
         responseHeaders.put("Set-Cookie", values);
     }
 
