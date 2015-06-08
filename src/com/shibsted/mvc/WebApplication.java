@@ -20,6 +20,7 @@ public class WebApplication {
             server.createContext("/page1", httpHandler);
             server.createContext("/page2", httpHandler);
             server.createContext("/page3", httpHandler);
+            server.createContext("/logout", httpHandler);
             server.start();
 
         } catch (java.io.IOException exception) {

@@ -6,8 +6,6 @@ public class UserRepository extends AbstractRepository {
 
     public User userOfUsernameAndPassword(String username, String password) {
 
-        User user = null;
-
         try {
             String userOfUsernameAndPasswordQuery = "SELECT * from USERS WHERE username = '" + username + "' AND password = '" + password + "'";
             PreparedStatement statement = this.connection.prepareStatement(userOfUsernameAndPasswordQuery);
@@ -18,7 +16,7 @@ public class UserRepository extends AbstractRepository {
                 String foundRole = resultSet.getString(3);
                 String foundPassword = resultSet.getString(4);
 
-                user = new User(foundUsername, foundPassword);
+                User user = new User(foundUsername, foundPassword);
                 user.setRole(foundRole);
 
                 return user;
@@ -28,6 +26,6 @@ public class UserRepository extends AbstractRepository {
             sqlExcept.printStackTrace();
         }
 
-        return user;
+        return null;
     }
 }

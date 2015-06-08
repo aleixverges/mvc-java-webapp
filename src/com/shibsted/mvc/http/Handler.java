@@ -19,15 +19,19 @@ public class Handler implements HttpHandler {
         String uriPath = uri.getPath();
         Map params = (Map)httpExchange.getAttribute("parameters");
         PageController pageController = new PageController(new View(), httpExchange, new UserRepository());
-        httpExchange.sendResponseHeaders(200, 0);
 
         switch (uriPath) {
             case "/page1":
             case "/page2":
             case "/page3":
                 pageController.pageAction();
+                break;
+            case "/logout":
+                pageController.logoutAction();
+                break;
             default:
                 pageController.loginAction(params);
+                break;
         }
     }
 }
