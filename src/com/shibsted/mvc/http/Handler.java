@@ -17,19 +17,20 @@ public class Handler implements HttpHandler {
 
         URI uri = httpExchange.getRequestURI();
         String uriPath = uri.getPath();
-        Map params = (Map)httpExchange.getAttribute("parameters");
         PageController pageController = new PageController(new View(), httpExchange, new UserRepository());
 
         switch (uriPath) {
             case "/page1":
             case "/page2":
             case "/page3":
-                pageController.pageAction();
+                Map cookies = (Map)httpExchange.getAttribute("cookies");
+                pageController.pageAction(cookies);
                 break;
             case "/logout":
                 pageController.logoutAction();
                 break;
             default:
+                Map params = (Map)httpExchange.getAttribute("parameters");
                 pageController.loginAction(params);
                 break;
         }

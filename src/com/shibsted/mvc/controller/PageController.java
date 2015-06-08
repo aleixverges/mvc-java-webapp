@@ -44,18 +44,15 @@ public class PageController {
         return;
     }
 
-    public void pageAction() {
-        HashMap cookiesHash = getCookies();
-
-        if (cookiesHash.isEmpty()) {
+    public void pageAction(Map cookies) {
+        if (cookies.isEmpty()) {
             this.render("forbidden", 403);
             return;
         }
 
-
         URI uri = this.httpExchange.getRequestURI();
         String uriPath = uri.getPath().replace("/", "");
-        String currentRole = (String) cookiesHash.get("role");
+        String currentRole = (String) cookies.get("role");
 
         if (!uriPath.equals(currentRole)) {
             this.render("forbidden", 403);
@@ -63,32 +60,6 @@ public class PageController {
         }
 
         this.render(uriPath, 200);
-    }
-
-    private HashMap getCookies() {
-        HashMap cookiesHash = new HashMap();
-        Headers reqHeaders = this.httpExchange.getRequestHeaders();
-
-        if (!reqHeaders.containsKey("Cookie")) {
-            return cookiesHash;
-        }
-
-        List<String> cookies = reqHeaders.get("Cookie");
-        StringTokenizer tokenizer = new StringTokenizer(cookies.get(0), ";");
-
-        for (String cookie : cookies) {
-            if (cookie.contains("user")) {
-                while (tokenizer.hasMoreTokens()) {
-                    String token = tokenizer.nextToken();
-                    StringTokenizer cookieTokenizer = new StringTokenizer(token, "=");
-                    String key = cookieTokenizer.nextToken().trim();
-                    String value = cookieTokenizer.nextToken().trim();
-
-                    cookiesHash.put(key, value);
-                }
-            }
-        }
-        return cookiesHash;
     }
 
     private void startSession(User user) {
