@@ -1,6 +1,7 @@
 package com.shibsted.mvc.http;
 
 import com.shibsted.mvc.controller.PageController;
+import com.shibsted.mvc.controller.PageControllerFactory;
 import com.shibsted.mvc.model.UserRepository;
 import com.shibsted.mvc.view.View;
 import com.sun.net.httpserver.HttpExchange;
@@ -12,12 +13,18 @@ import java.util.Map;
 
 public class Handler implements HttpHandler {
 
+    private PageControllerFactory pageControllerFactory;
+
+    public Handler(PageControllerFactory pageControllerFactory) {
+        this.pageControllerFactory = pageControllerFactory;
+    }
+
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpExchange httpExchange) {
 
         URI uri = httpExchange.getRequestURI();
         String uriPath = uri.getPath();
-        PageController pageController = new PageController(new View(), httpExchange, new UserRepository());
+        PageController pageController = this.pageControllerFactory.build(httpExchange);
 
         switch (uriPath) {
             case "/page1":

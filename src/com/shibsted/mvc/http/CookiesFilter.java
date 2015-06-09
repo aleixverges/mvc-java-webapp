@@ -33,10 +33,10 @@ public class CookiesFilter extends Filter {
         }
 
         List<String> cookies = reqHeaders.get("Cookie");
-        StringTokenizer tokenizer = new StringTokenizer(cookies.get(0), ";");
 
         for (String cookie : cookies) {
             if (cookie.contains("user")) {
+                StringTokenizer tokenizer = new StringTokenizer(cookie, ";");
                 while (tokenizer.hasMoreTokens()) {
                     String token = tokenizer.nextToken();
                     StringTokenizer cookieTokenizer = new StringTokenizer(token, "=");
