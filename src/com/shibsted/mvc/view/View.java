@@ -10,11 +10,18 @@ public class View {
     private OutputStream outputStream;
     private TemplateFactory templateFactory;
     private TemplateReaderFactory templateReaderFactory;
+    private TemplateTokenReplacer templateTokenReplacer;
 
-    public View(OutputStream outputStream, TemplateFactory templateFactory, TemplateReaderFactory templateReaderFactory) {
+    public View(
+            OutputStream outputStream,
+            TemplateFactory templateFactory,
+            TemplateReaderFactory templateReaderFactory,
+            TemplateTokenReplacer templateTokenReplacer
+    ) {
         this.outputStream = outputStream;
         this.templateFactory = templateFactory;
         this.templateReaderFactory = templateReaderFactory;
+        this.templateTokenReplacer = templateTokenReplacer;
     }
 
     public void render(String templateName, Map tokens) throws IOException {
@@ -25,47 +32,17 @@ public class View {
         final byte[] buffer = new byte[0x10000];
         int count = 0;
 
+        InputStream templateInputStream = this.templateReaderFactory.build(templateFile);
+
         if (tokens != null) {
-            InputStream templateInputStream = this.replaceTokens(templateFile, tokens);
-            while ((count = templateInputStream.read(buffer)) >= 0) {
-                this.outputStream.write(buffer, 0, count);
-            }
-            templateInputStream.close();
-        } else {
-            FileInputStream templateInputStream = this.templateReaderFactory.build(templateFile);
-            while ((count = templateInputStream.read(buffer)) >= 0) {
-                this.outputStream.write(buffer, 0, count);
-            }
-            templateInputStream.close();
+            templateInputStream = this.templateTokenReplacer.replace(templateFile, tokens);
         }
 
+        while ((count = templateInputStream.read(buffer)) >= 0) {
+            this.outputStream.write(buffer, 0, count);
+        }
+
+        templateInputStream.close();
         this.outputStream.close();
-    }
-
-    private InputStream replaceTokens(File templateFile, Map<String, String> tokens) {
-
-        try {
-            FileReader fileReader = new FileReader(templateFile);
-            String s;
-            String totalStr = "";
-            try (BufferedReader br = new BufferedReader(fileReader)) {
-
-                while ((s = br.readLine()) != null) {
-                    totalStr += s;
-                }
-
-                for (Map.Entry<String, String> entry : tokens.entrySet()) {
-                    String key = "<%" + entry.getKey().toString() + "%>";
-                    String value = entry.getValue().toString();
-                    totalStr = totalStr.replaceAll(key, value);
-                }
-
-                return new ByteArrayInputStream(totalStr.getBytes());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }
