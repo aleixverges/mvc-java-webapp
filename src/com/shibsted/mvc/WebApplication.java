@@ -19,10 +19,11 @@ public class WebApplication {
             HttpContext loginContext = server.createContext("/", httpHandler);
             loginContext.getFilters().add(new ParameterFilter());
 
-            server.createContext("/page1", httpHandler).getFilters().add(new CookiesFilter());
-            server.createContext("/page2", httpHandler).getFilters().add(new CookiesFilter());;
-            server.createContext("/page3", httpHandler).getFilters().add(new CookiesFilter());;
-            server.createContext("/logout", httpHandler).getFilters().add(new CookiesFilter());;
+            CookiesFilter cookiesFilter = new CookiesFilter();
+            server.createContext("/page1", httpHandler).getFilters().add(cookiesFilter);
+            server.createContext("/page2", httpHandler).getFilters().add(cookiesFilter);
+            server.createContext("/page3", httpHandler).getFilters().add(cookiesFilter);
+            server.createContext("/logout", httpHandler).getFilters().add(cookiesFilter);
             server.start();
 
         } catch (java.io.IOException exception) {

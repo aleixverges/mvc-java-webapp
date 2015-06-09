@@ -43,6 +43,7 @@ public class ParameterFilter extends Filter {
             throws IOException {
 
         if ("post".equalsIgnoreCase(exchange.getRequestMethod())) {
+            @SuppressWarnings("unchecked")
             Map parameters =
                     (Map)exchange.getAttribute("parameters");
             InputStreamReader isr =
@@ -53,6 +54,7 @@ public class ParameterFilter extends Filter {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void parseQuery(String query, Map parameters)
             throws UnsupportedEncodingException {
 

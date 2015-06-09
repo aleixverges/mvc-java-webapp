@@ -9,22 +9,30 @@ public class View {
 
     public static final String TEMPLATES_PATH = "/Users/aleix/IdeaProjects/Shibsted/src/com/shibsted/mvc/templates/";
 
-    private OutputStream os;
+    private OutputStream outputStream;
+    private TemplateFactory templateFactory;
+    private TemplateReaderFactory templateReaderFactory;
 
-    public void setOutputStream(OutputStream os) {
-        this.os = os;
+    public View(OutputStream outputStream, TemplateFactory templateFactory, TemplateReaderFactory templateReaderFactory) {
+        this.outputStream = outputStream;
+        this.templateFactory = templateFactory;
+        this.templateReaderFactory = templateReaderFactory;
     }
 
-    public void render(String template) throws IOException {
-        String pathname = TEMPLATES_PATH + template + ".html";
-        File file = new File(pathname).getCanonicalFile();
-        FileInputStream fs = new FileInputStream(file);
+    public void render(String templateName) throws IOException {
+
+        String pathname = TEMPLATES_PATH + templateName + ".html";
+        File templateFile = this.templateFactory.build(pathname);
+        FileInputStream templateInputStream = this.templateReaderFactory.build(templateFile);
+
         final byte[] buffer = new byte[0x10000];
         int count = 0;
-        while ((count = fs.read(buffer)) >= 0) {
-            this.os.write(buffer, 0, count);
+
+        while ((count = templateInputStream.read(buffer)) >= 0) {
+            this.outputStream.write(buffer, 0, count);
         }
-        fs.close();
-        this.os.close();
+
+        templateInputStream.close();
+        this.outputStream.close();
     }
 }

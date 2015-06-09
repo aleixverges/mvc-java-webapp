@@ -1,12 +1,19 @@
 package com.shibsted.mvc.controller;
 
 import com.shibsted.mvc.model.UserRepository;
+import com.shibsted.mvc.view.TemplateFactory;
+import com.shibsted.mvc.view.TemplateReaderFactory;
 import com.shibsted.mvc.view.View;
 import com.sun.net.httpserver.HttpExchange;
+
+import java.io.OutputStream;
 
 public class PageControllerFactory {
 
     public PageController build(HttpExchange httpExchange) {
-        return new PageController(new View(), httpExchange, new UserRepository());
+        OutputStream os = httpExchange.getResponseBody();
+        View view = new View(os, new TemplateFactory(), new TemplateReaderFactory());
+
+        return new PageController(view, httpExchange, new UserRepository());
     }
 }

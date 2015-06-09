@@ -79,9 +79,6 @@ public class PageController {
     }
 
     private void render(String template, int statusCode) {
-        OutputStream os = this.httpExchange.getResponseBody();
-        this.view.setOutputStream(os);
-
         try {
             this.sendResponse(statusCode);
             this.view.render(template);

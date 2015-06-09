@@ -2,16 +2,16 @@ package com.shibsted.mvc.http;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CookiesFilterTest extends TestCase {
+public class CookiesFilterTest {
 
     private CookiesFilter cookiesFilter;
 
