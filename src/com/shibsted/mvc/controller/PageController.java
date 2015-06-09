@@ -7,7 +7,6 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.*;
 
@@ -31,7 +30,9 @@ public class PageController {
 
         if (user != null) {
             startSession(user);
-            this.render("logged", 200);
+            HashMap viewParams = new HashMap();
+            viewParams.put("username", user.getUsername());
+            this.render("logged", 200, viewParams);
             return;
         }
 
@@ -81,7 +82,16 @@ public class PageController {
     private void render(String template, int statusCode) {
         try {
             this.sendResponse(statusCode);
-            this.view.render(template);
+            this.view.render(template, null);
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    private void render(String template, int statusCode, Map<String, String> viewParams) {
+        try {
+            this.sendResponse(statusCode);
+            this.view.render(template, viewParams);
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
         }
