@@ -8,4 +8,5 @@ To login into the application you can use the following credentials
  user2 password:user2 role:page2  
  
  user3 password:user3 role:page3  
- 
+
+You can find the JAR artifact at /out/artifacts/shibsted.jar
