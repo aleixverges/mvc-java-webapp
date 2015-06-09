@@ -6,7 +6,9 @@ import java.util.Map;
 public class TemplateTokenReplacer {
 
     public InputStream replace(File template, Map<String, String> tokens) {
+
         try {
+
             FileReader fileReader = new FileReader(template);
             String s;
             String totalStr = "";
@@ -22,9 +24,13 @@ public class TemplateTokenReplacer {
                     totalStr = totalStr.replaceAll(key, value);
                 }
                 return new ByteArrayInputStream(totalStr.getBytes());
+
+            } catch (IOException exception) {
+                System.out.println(exception.getMessage());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (FileNotFoundException exception) {
+            System.out.println(exception.getMessage());
         }
 
         return null;
