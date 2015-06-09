@@ -1,9 +1,9 @@
-package com.shibsted.mvc.tests;
+package com.shibsted.mvc.http;
 
-import com.shibsted.mvc.http.CookiesFilter;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -15,11 +15,8 @@ public class CookiesFilterTest extends TestCase {
 
     private CookiesFilter cookiesFilter;
 
-    public CookiesFilterTest(String name) {
-        super(name);
-    }
-
-    protected void setUp() {
+    @Before
+    public void setUp() {
         this.cookiesFilter = new CookiesFilter();
     }
 

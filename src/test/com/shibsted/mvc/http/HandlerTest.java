@@ -1,22 +1,22 @@
-package com.shibsted.mvc.tests;
+package com.shibsted.mvc.http;
 
 import com.shibsted.mvc.controller.PageController;
 import com.shibsted.mvc.controller.PageControllerFactory;
-import com.shibsted.mvc.http.Handler;
 import com.sun.net.httpserver.HttpExchange;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.net.URI;
 import java.util.Map;
 
-public class HandlerTest extends TestCase {
+public class HandlerTest {
 
     private Handler handler;
     private PageControllerFactory pageControllerFactory;
 
-    protected void setUp() {
+    @Before
+    public void setUp() {
         this.pageControllerFactory = Mockito.mock(PageControllerFactory.class);
         this.handler = new Handler(this.pageControllerFactory);
     }
